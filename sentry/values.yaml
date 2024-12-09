@@ -2035,10 +2035,19 @@ zookeeper:
 # See https://github.com/bitnami/charts/tree/master/bitnami/kafka
 kafka:
   enabled: true
+  broker:
+    enabled: true
+    replicaCount: 1
+    persistence:
+      size: 8Gi
+      storageClassName: "nfs-87-delete" 
+      existingClaim: "sentry-pv-claim"
+      accessModes:
+      - ReadWriteOnce 
   provisioning:
     ## Increasing the replicationFactor enhances data reliability during Kafka pod failures by replicating data across multiple brokers.
-    # replicationFactor: 1
     enabled: true
+    replicationFactor: 1
     # Topic list is based on files below.
     # - https://github.com/getsentry/snuba/blob/master/snuba/utils/streams/topics.py
     # - https://github.com/getsentry/self-hosted/blob/master/install/create-kafka-topics.sh#L6
@@ -2047,6 +2056,11 @@ kafka:
     # numPartitions: 1
     # Note that snuba component might fail if you set `hooks.snubaInit.kafka.enabled` to `false` and remove the topics from this default topic list.
     topics:
+
+    # add topics
+      - name: __consumer_offsets
+        partitions: 50
+        replicationFactor: 1
       - name: events
         ## Number of partitions for this topic
         # partitions: 1
@@ -2158,14 +2172,30 @@ kafka:
       protocol: "PLAINTEXT"
     external:
       protocol: "PLAINTEXT"
+  logRetentionHours: 48
+  logRetentionBytes: _104857600
+  logSegmentBytes: _104857600
   zookeeper:
-    enabled: false
-  kraft:
     enabled: true
+    replicaCount: 1
+    persistence:
+      size: 8Gi
+      storageClassName: "nfs-87-delete" 
+      existingClaim: "sentry-pv-claim"
+      accessModes:
+      - ReadWriteOnce  
+    livenessProbe:
+      initialDelaySeconds: 90
+      timeoutSeconds: 20
+    readinessProbe:
+      initialDelaySeconds: 90
+      timeoutSeconds: 200
+  kraft:
+    enabled: false
   extraConfig: |-
        log.retention.ms=600000
   controller:
-    replicaCount: 1
+    replicaCount: 0
     persistence:
       size: 8Gi
       storageClassName: "nfs-87-delete" 
