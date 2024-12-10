@@ -1999,18 +1999,18 @@ clickhouse:
 
 # This value is only used when clickhouse.enabled is set to false
 #
-# externalClickhouse:
-#   ## Hostname or ip address of external clickhouse
-#   ##
-#   enabled: false
-#   host: "clickhouse"
-#   tcpPort: 9000
-#   httpPort: 8123
-#   username: default
-#   password: ""
-#   database: default
-#   singleNode: true
-#   existingSecret: secret-name
+externalClickhouse:
+  ## Hostname or ip address of external clickhouse
+  ##
+  enabled: false
+  host: "clickhouse"
+  tcpPort: 9000
+  httpPort: 8123
+  username: default
+  password: ""
+  database: default
+  singleNode: true
+  existingSecret: secret-name
 #   # set existingSecretKey if key name inside existingSecret is different from 'postgres-password'
 #   existingSecretKey: secret-key-name
 #   # Cluster name, can be found in config
