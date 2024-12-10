@@ -7,10 +7,13 @@ global:
   nodeSelector: {}
   tolerations: []
 
+  # email: admin@sentry.local
+  # password: aaaa
+
 user:
   create: true
-  email: admin@sentry.local
-  password: aaaa
+  email: nong@gmail.com
+  password: truongvietlong
 
   ## set this value to an existingSecret name to create the admin user with the password in the secret
   # existingSecret: sentry-admin-password
@@ -114,7 +117,7 @@ relay:
   affinity: {}
   nodeSelector: {}
   # call sentry-web
-  upstreams: http://sentry.icenter.ai/
+  # upstreams: http://sentry.icenter.ai/
     # - url: "sentry-web.sentry-lab.svc.cluster.local:9000" 
   # healthCheck:
   #   readinessRequestPath: ""
@@ -1933,9 +1936,9 @@ filestore:
 config:
   # No YAML Extension Config Given
   configYml:
-    system.url-prefix: 'http://sentry.icenter.ai'
+   # system.url-prefix: 'http://sentry.icenter.ai'
   sentryConfPy: |
-    CSRF_TRUSTED_ORIGINS = ['http://sentry.icenter.ai','http://10.159.19.40:32083']
+    #  CSRF_TRUSTED_ORIGINS = ['http://sentry.icenter.ai','http://10.159.19.40:32083']
     # CSRF_COOKIE_HTTPONLY = True
     # CSRF_COOKIE_SECURE = False #su dung https
     # ALLOWED_HOSTS = [ 'sentry.icenter.ai','10.159.19.40','*',]
@@ -1966,7 +1969,7 @@ clickhouse:
             hostTemplate: "{{ .Release.Name }}-zookeeper-clickhouse"
             port: "2181"
       users:
-        enabled: false
+        enabled: true
         user:
           # the first user will be used if enabled
           - name: default
@@ -1994,11 +1997,12 @@ clickhouse:
   #   name: "sentry-clickhouse"
   #   automountServiceAccountToken: true
 
-## This value is only used when clickhouse.enabled is set to false
-##
+# This value is only used when clickhouse.enabled is set to false
+#
 # externalClickhouse:
 #   ## Hostname or ip address of external clickhouse
 #   ##
+#   enabled: false
 #   host: "clickhouse"
 #   tcpPort: 9000
 #   httpPort: 8123
@@ -2006,14 +2010,14 @@ clickhouse:
 #   password: ""
 #   database: default
 #   singleNode: true
-  # existingSecret: secret-name
-  ## set existingSecretKey if key name inside existingSecret is different from 'postgres-password'
-  # existingSecretKey: secret-key-name
-  ## Cluster name, can be found in config
-  ## (https://clickhouse.tech/docs/en/operations/server-configuration-parameters/settings/#server-settings-remote-servers)
-  ## or by executing `select * from system.clusters`
-  ##
-  # clusterName: test_shard_localhost
+#   existingSecret: secret-name
+#   # set existingSecretKey if key name inside existingSecret is different from 'postgres-password'
+#   existingSecretKey: secret-key-name
+#   # Cluster name, can be found in config
+#   # (https://clickhouse.tech/docs/en/operations/server-configuration-parameters/settings/#server-settings-remote-servers)
+#   # or by executing `select * from system.clusters`
+#   #
+#   clusterName: test_shard_localhost
 
 # Settings for Zookeeper.
 # See https://github.com/bitnami/charts/tree/master/bitnami/zookeeper
